@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>QC 상세 보기</title>
+  <style>
+    body { background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; margin: 0; padding: 0; }
+
+    header {
+      background: #000;
+      padding: 20px;
+      border-bottom: 2px solid red;
+      text-align: center;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 28px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #222;
+    }
+
+    td {
+      background: #111;
+    }
+
+    .footer {
+      margin-top: 60px;
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Production Management System</h1>
+  </header>
+
+  <div class="container">
+    <h2 id="title">QC 상세 정보</h2>
+    <table id="detailTable">
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Product</th>
+          <th>Inject Temp</th>
+          <th>Mold Temp</th>
+          <th>Curing Time</th>
+          <th>Strength</th>
+          <th>Elongation</th>
+          <th>Modulus</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    담당자 : 김준태 팀장 | 연락처 : 010-8790-0309 | email : jt.kim@tannus.com
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const date = params.get("date");
+    const author = params.get("author");
+
+    document.getElementById("title").innerText = `📅 ${date} | 👤 ${author}`;
+
+    async function loadData() {
+      try {
+        const res = await fetch("http://localhost:8080/api/tire");
+        const allData = await res.json();
+
+        const filtered = allData.filter(item => item.date === date && item.author === author);
+
+        const tbody = document.querySelector("#detailTable tbody");
+        tbody.innerHTML = filtered.map(row => `
+          <tr>
+            <td>${row.machine}</td>
+            <td>${row.product}</td>
+            <td>${row.injectTemp}</td>
+            <td>${row.moldTemp}</td>
+            <td>${row.curingtime}</td>
+            <td>${row.strength}</td>
+            <td>${row.elongation}</td>
+            <td>${row.modulus}</td>
+          </tr>
+        `).join("");
+
+      } catch (err) {
+        console.error("❌ 오류:", err);
+        alert("상세 데이터를 불러올 수 없습니다.");
+      }
+    }
+
+    window.onload = loadData;
+  </script>
+
+</body>
+</html>
+

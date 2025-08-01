@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Production Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <style>
+    body { background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; margin: 0; padding: 0; }
+    header {
+      background-color: black;
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 3em;
+      font-family: 'Anton', sans-serif; 
+      letter-spacing: 2px;
+    }
+    .menu {
+      width: 98%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      background-color: black;
+      text-align: center;
+      align-items: center;
+      border: 3px solid red;
+      border-radius: 5px;
+    }
+    .menu-item { position: relative; }
+    .menu button {
+      background-color: black;
+      border: none;
+      color: white;
+      padding: 1em 0;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      width: 100%;
+    }
+    .menu button:hover { color: #ff3c57; }
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
+      z-index: 100;
+      width: 160px;
+    }
+    .submenu ul { list-style: none; margin: 0; padding: 0; }
+    .submenu li {
+      text-align: center;
+      font-size: 1em;
+      padding: 0.8em;
+      border-bottom: 1px solid #222;
+    }
+    .submenu li a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+    .submenu li a:hover { color: #ff3c57; }
+    .menu-item:hover .submenu { display: block; }
+    main { padding: 20px; }
+    table {
+      width: 100%;
+      background: white;
+      color: black;
+      text-align: center;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .layout {
+      display: flex;
+      margin: 30px;
+    }
+
+    .sidebar {
+      width: 300px;
+      border-right: 2px solid red;
+      padding-right: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar a.menu-link {
+      display: block;
+      color: white;
+      margin: 3px 0;
+      text-decoration: none;
+    }
+    .sidebar a.menu-link:hover {
+      color: red;
+    }
+
+    .sidebar .filter {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar input[type="date"] {
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    .sidebar button {
+      padding: 5px 10px;
+      font-size: 14px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    .sidebar table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+      margin-top: 10px;
+      background-color: black;
+    }
+    .sidebar th, .sidebar td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: center;
+    }
+    .sidebar tr:hover { background: #222; cursor: pointer; }
+
+    .content {
+      flex: 1;
+      padding-left: 40px;
+    }
+
+    .qc-group {
+      border: 2px solid #666;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .qc-group h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .qc-group table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .qc-group th, .qc-group td {
+      border: 1px solid #444;
+      padding: 6px;
+      text-align: center;
+      
+    }
+    .qc-group th { background: #8d8c8c; }
+    .qc-group td { background: #b4b3b3; }
+
+    .footer {
+      margin: 60px 0 20px 0;
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>Production Management System</header>
+  <nav class="menu">
+    <div class="menu-item"><button>NoticeBoard</button><div class="submenu"><ul><li><a href="#">공지사항</a></li><li><a href="#">문의게시판</a></li></ul></div></div>
+    <div class="menu-item"><button>Tire</button><div class="submenu"><ul><li><a href="#">생산 계획</a></li><li><a href="#">작업 지시서</a></li></ul></div></div>
+    <div class="menu-item"><button>Armour</button><div class="submenu"><ul><li><a href="#">생산 계획</a></li></ul></div></div>
+    <div class="menu-item"><button>Tubeless</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>Oofos</button><div class="submenu"><ul><li><a href="#">포장 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>QuanFoam</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>Compound</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>TpuTube</button><div class="submenu"><ul><li><a href="#">포장 현황</a></li></ul></div></div>
+    <div class="menu-item"><button>QC</button>
+      <div class="submenu">
+        <ul>
+          <li><a href="qcdata.html">Qc Data</a></li>
+          <li><a href="tire.html">Tire</a></li>
+          <li><a href="amour.html">Armour</a></li>
+          <li><a href="tubeless.html">Tubeless</a></li>
+          <li><a href="oofos.html">Oofos</a></li>
+          <li><a href="quanfoam.html">QuanFoam</a></li>
+          <li><a href="compound.html">Compound</a></li>
+          <li><a href="tpu.html">Tpu</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <div class="sidebar">
+      <h2>Data 목록</h2>
+
+      <!-- 메뉴 링크 -->
+      <a href="qcdata.html" class="menu-link">Tire</a>
+      <a href="amour_qcdata.html" class="menu-link">Amour</a>
+      <a href="tubeless_qcdata.html" class="menu-link">Tubeless</a>
+      <a href="oofos_qcdata.html" class="menu-link">Oofos</a>
+      <a href="quanfoam_qcdata.html" class="menu-link">Quanfoam</a>
+      <a href="compound_qcdata.html" class="menu-link">Compound</a>
+
+      <!-- 필터 -->
+      <div class="filter">
+        <input type="date" id="dateFilter" />
+        <button onclick="resetFilter()">초기화</button>
+      </div>
+
+      <!-- 목록 테이블 -->
+      <table id="postList">
+        <thead>
+          <tr><th>No</th><th>작성일자</th><th>작성자</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="content">
+      <h2>Data 내용</h2>
+      <div id="qcDataContainer"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    담당자 : 김준태 팀장 | 연락처 : 010-8790-0309 | email : jt.kim@tannus.com
+  </div>
+
+  <script>
+    let allData = [];
+    let groupedData = {};
+    let filteredKeys = [];
+
+    async function loadQCData() {
+      const res = await fetch("http://localhost:8080/api/quanfoam/list");
+      allData = await res.json();
+
+      groupedData = {};
+      allData.forEach(row => {
+        const key = `${row.date}_${row.author}`;
+        if (!groupedData[key]) groupedData[key] = [];
+        groupedData[key].push(row);
+      });
+
+      applyFilter();
+    }
+
+    function applyFilter() {
+      const filterDate = document.getElementById("dateFilter").value;
+      const tbody = document.querySelector("#postList tbody");
+      tbody.innerHTML = "";
+
+      filteredKeys = Object.keys(groupedData).filter(key => {
+        return !filterDate || key.startsWith(filterDate);
+      });
+
+      filteredKeys.reverse().forEach((key, idx) => {
+        const [date, author] = key.split("_");
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${idx + 1}</td><td>${date}</td><td>${author}</td>`;
+        tr.addEventListener("click", () => renderQCDetail(key));
+        tbody.appendChild(tr);
+      });
+
+      if (filteredKeys.length > 0) {
+        renderQCDetail(filteredKeys[0]);
+      } else {
+        document.getElementById("qcDataContainer").innerHTML = "";
+      }
+    }
+
+    function resetFilter() {
+      document.getElementById("dateFilter").value = "";
+      applyFilter();
+    }
+
+    function renderQCDetail(key) {
+      const rows = groupedData[key];
+      const [date, author] = key.split("_");
+      const container = document.getElementById("qcDataContainer");
+      container.innerHTML = `
+        <div class="qc-group">
+          <h3>📅 ${date} | 👤 ${author}</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Machine</th>
+                <th>Product</th>
+                <th>Inject Temp</th>
+                <th>Mold Temp</th>
+                <th>Curing Time</th>
+                <th>Strength</th>
+                <th>Elongation</th>
+                <th>Modulus</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `
+                <tr>
+                  <td>${r.machine}</td>
+                  <td>${r.product}</td>
+                  <td>${r.injectTemp}</td>
+                  <td>${r.moldTemp}</td>
+                  <td>${r.curingtime}</td>
+                  <td>${r.strength}</td>
+                  <td>${r.elongation}</td>
+                  <td>${r.modulus}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    window.onload = loadQCData;
+    document.getElementById("dateFilter").addEventListener("change", applyFilter);
+  </script>
+</body>
+</html>

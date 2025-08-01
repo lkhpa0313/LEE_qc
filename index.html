@@ -1,0 +1,75 @@
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TANNUS Dashboard</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- XLSX.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>Production Management System</header>
+  <nav class="menu">
+    <div class="menu-item"><button>NoticeBoard</button><div class="submenu"><ul><li><a href="#">공지사항</a></li><li><a href="#">문의게시판</a></li></ul></div></div>
+    <div class="menu-item"><button>Tire</button><div class="submenu"><ul><li><a href="#">생산 계획</a></li><li><a href="#">작업 지시서</a></li></ul></div></div>
+    <div class="menu-item"><button>Armour</button><div class="submenu"><ul><li><a href="#">생산 계획</a></li></ul></div></div>
+    <div class="menu-item"><button>Tubeless</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>Oofos</button><div class="submenu"><ul><li><a href="#">포장 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>QuanFoam</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>Compound</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>TpuTube</button><div class="submenu"><ul><li><a href="#">포장 현황</a></li></ul></div></div>
+    <div class="menu-item"><button>QC</button>
+      <div class="submenu">
+        <ul>
+          <li><a href="qcdata.html">Qc Data</a></li>
+          <li><a href="tire.html">Tire</a></li>
+          <li><a href="amour.html">Armour</a></li>
+          <li><a href="tubeless.html">Tubeless</a></li>
+          <li><a href="oofos.html">Oofos</a></li>
+          <li><a href="quanfoam.html">QuanFoam</a></li>
+          <li><a href="compound.html">Compound</a></li>
+          <li><a href="tpu.html">Tpu</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <!-- ✅ 콘텐츠 영역 -->
+    <div class="container">
+      <!-- 검색 -->
+      <div class="search-bar">
+        <label>날짜검색:
+          <input type="date" id="dateFilter">
+        </label>
+        <label>제품명 검색:
+          <input type="text" id="productFilter" placeholder="제품명을 입력하세요" />
+        </label>
+        <input type="file" id="excelFile" />
+      </div>
+
+      <!-- 그래프 -->
+      <div id="chartContainer">
+        <div class="chart-box"><canvas id="chartTensile"></canvas></div>
+        <div class="chart-box"><canvas id="chartElongation"></canvas></div>
+        <div class="chart-box"><canvas id="chartModulus"></canvas></div>
+      </div>
+
+      <!-- 테이블 -->
+      <div id="excelTable"></div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+

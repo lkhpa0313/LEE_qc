@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Production Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <style>
+    body { background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; margin: 0; padding: 0; }
+    header {
+      background-color: black;
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 3em;
+      font-family: 'Anton', sans-serif; 
+      letter-spacing: 2px;
+    }
+    .menu {
+      width: 98%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      background-color: black;
+      text-align: center;
+      align-items: center;
+      border: 3px solid red;
+      border-radius: 5px;
+    }
+    .menu-item { position: relative; }
+    .menu button {
+      background-color: black;
+      border: none;
+      color: white;
+      padding: 1em 0;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      width: 100%;
+    }
+    .menu button:hover { color: #ff3c57; }
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
+      z-index: 100;
+      width: 160px;
+    }
+    .submenu ul { list-style: none; margin: 0; padding: 0; }
+    .submenu li {
+      text-align: center;
+      font-size: 1em;
+      padding: 0.8em;
+      border-bottom: 1px solid #222;
+    }
+    .submenu li a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+    .submenu li a:hover { color: #ff3c57; }
+    .menu-item:hover .submenu { display: block; }
+    main { padding: 20px; }
+    table {
+      width: 100%;
+      background: white;
+      color: black;
+      text-align: center;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .layout {
+      display: flex;
+      margin: 30px;
+    }
+    .sidebar {
+      width: 300px;
+      border-right: 2px solid red;
+      padding-right: 20px;
+    }
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    /* ✅ 세로 정렬 수정된 부분 */
+    .sidebar a.menu-link {
+      display: inline;
+      cursor: pointer;
+      color: white;
+      margin: 6px 0;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .sidebar a.menu-link:hover {
+      color: red;
+
+    }
+    .sidebar .filter {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    .sidebar input[type="date"] {
+      padding: 5px;
+      font-size: 14px;
+    }
+    .sidebar button {
+      padding: 5px 10px;
+      font-size: 14px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    .sidebar table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+      margin-top: 10px;
+      background-color: black;
+    }
+    .sidebar th, .sidebar td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: center;
+    }
+    .sidebar tr:hover { background: #222; cursor: pointer; }
+    .content {
+      flex: 1;
+      padding-left: 40px;
+    }
+    #productSearch {
+      padding: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+    }
+    .qc-group {
+      border: 2px solid #666;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .qc-group h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .qc-group table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .qc-group th, .qc-group td {
+      border: 1px solid #444;
+      padding: 6px;
+      text-align: center;
+    }
+    .qc-group th { background: #8d8c8c; }
+    .qc-group td { background: #b4b3b3; }
+    .footer {
+      margin: 60px 0 20px 0;
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>Production Management System</header>
+  <nav class="menu">
+    <div class="menu-item"><button>NoticeBoard</button><div class="submenu"><ul><li><a href="#">공지사항</a></li><li><a href="#">문의게시판</a></li></ul></div></div>
+    <div class="menu-item"><button>Tire</button><div class="submenu"><ul><li><a href="#">생산 계획</a></li><li><a href="#">작업 지시서</a></li></ul></div></div>
+    <div class="menu-item"><button>Armour</button><div class="submenu"><ul><li><a href="#">생산 계획</a></li></ul></div></div>
+    <div class="menu-item"><button>Tubeless</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>Oofos</button><div class="submenu"><ul><li><a href="#">포장 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>QuanFoam</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>Compound</button><div class="submenu"><ul><li><a href="#">생산 일지</a></li></ul></div></div>
+    <div class="menu-item"><button>TpuTube</button><div class="submenu"><ul><li><a href="#">포장 현황</a></li></ul></div></div>
+    <div class="menu-item"><button>QC</button>
+      <div class="submenu">
+        <ul>
+          <li><a href="qcdata.html">Data</a></li>
+          <li><a href="tire.html">Tire</a></li>
+          <li><a href="amour.html">Armour</a></li>
+          <li><a href="tubeless.html">Tubeless</a></li>
+          <li><a href="oofos.html">Oofos</a></li>
+          <li><a href="quanfoam.html">QuanFoam</a></li>
+          <li><a href="compound.html">Compound</a></li>
+          <li><a href="tpu.html">Tpu</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <div class="sidebar">
+      <h2>Data 목록</h2>
+      <a href="qcdata.html" class="menu-link">Tire</a><br>
+      <a href="amour_qcdata.html" class="menu-link">Amour</a><br>
+      <a href="tubeless_qcdata.html" class="menu-link">Tubeless</a><br>
+      <a href="oofos_qcdata.html" class="menu-link">Oofos</a><br>
+      <a href="quanfoam_qcdata.html" class="menu-link">Quanfoam</a><br>
+      <a href="compound_qcdata.html" class="menu-link">Compound</a><br>
+      <a href="index.html" class="menu-link">제품 물성 시트</a>
+
+      <div class="filter">
+        <input type="date" id="dateFilter" />
+        <button onclick="resetFilter()">초기화</button>
+        <button onclick="showAll()">전체보기</button>
+      </div>
+
+      <table id="postList">
+        <thead>
+          <tr><th>No</th><th>작성일자</th><th>작성자</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+        <h2>Data 내용</h2>
+        <div style="text-align: right;">
+          <label for="productSearch">Product 검색:</label>
+          <input type="text" id="productSearch" placeholder="제품명 입력" oninput="filterByProduct()">
+        </div>
+      </div>
+      <div id="qcDataContainer"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    담당자 : 김준태 팀장 | 연락처 : 010-8790-0309 | email : jt.kim@tannus.com
+  </div>
+
+  <script>
+  let allData = [];
+  let groupedData = {};
+  let filteredKeys = [];
+  let currentPage = 1;
+  const rowsPerPage = 5;
+
+  async function loadQCData() {
+    try {
+      const res = await fetch("http://localhost:8080/api/tire/list");
+      allData = await res.json();
+
+      if (!allData.length) {
+        document.querySelector("#qcDataContainer").innerHTML = "<p style='color:white;'>📭 QC 데이터가 없습니다.</p>";
+        return;
+      }
+
+      groupedData = {};
+      allData.forEach(row => {
+        const key = `${row.date}_${row.author}`;
+        if (!groupedData[key]) groupedData[key] = [];
+        groupedData[key].push(row);
+      });
+
+      applyFilter();
+    } catch (err) {
+      console.error("🚨 불러오기 오류:", err);
+      document.querySelector("#qcDataContainer").innerHTML = "<p style='color:red;'>❌ 서버와 통신 실패</p>";
+    }
+  }
+
+  function applyFilter() {
+    const filterDate = document.getElementById("dateFilter").value;
+    filteredKeys = Object.keys(groupedData).filter(key => {
+      return !filterDate || key.startsWith(filterDate);
+    });
+
+    filteredKeys.sort((a, b) => {
+      const dateA = new Date(a.split("_")[0]);
+      const dateB = new Date(b.split("_")[0]);
+      return dateB - dateA; // 최신 날짜 우선
+    });
+
+    currentPage = 1;
+    renderPage();
+  }
+
+  function renderPage() {
+    const tbody = document.querySelector("#postList tbody");
+    tbody.innerHTML = "";
+
+    const startIdx = (currentPage - 1) * rowsPerPage;
+    const endIdx = startIdx + rowsPerPage;
+    const pageKeys = filteredKeys.slice(startIdx, endIdx);
+
+    pageKeys.forEach((key, idx) => {
+      const [date, author] = key.split("_");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${startIdx + idx + 1}</td><td>${date}</td><td>${author}</td>`;
+      tr.addEventListener("click", () => renderQCDetail(key));
+      tbody.appendChild(tr);
+    });
+
+    if (filteredKeys.length > 0 && pageKeys.length > 0) {
+      renderQCDetail(pageKeys[0]);
+    }
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    let paginationHtml = "page ";
+    const totalPages = Math.ceil(filteredKeys.length / rowsPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === currentPage) {
+        paginationHtml += `<strong>${i}</strong> `;
+      } else {
+        paginationHtml += `<a href="#" onclick="gotoPage(${i}); return false;">${i}</a> `;
+      }
+    }
+
+    const paginationDiv = document.getElementById("pagination");
+    if (paginationDiv) {
+      paginationDiv.innerHTML = paginationHtml;
+    } else {
+      const newDiv = document.createElement("div");
+      newDiv.id = "pagination";
+      newDiv.style = "color:white; text-align:center; margin-top:10px;";
+      newDiv.innerHTML = paginationHtml;
+      document.querySelector(".sidebar").appendChild(newDiv);
+    }
+  }
+
+  function gotoPage(page) {
+    currentPage = page;
+    renderPage();
+  }
+
+  function resetFilter() {
+    document.getElementById("dateFilter").value = "";
+    applyFilter();
+  }
+
+  function renderQCDetail(key) {
+    const rows = groupedData[key];
+    const [date, author] = key.split("_");
+    const container = document.getElementById("qcDataContainer");
+    container.innerHTML = `
+      <div class="qc-group">
+        <h3>📅 ${date} | 👤 ${author}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Machine</th>
+              <th>Product</th>
+              <th>Inject Temp</th>
+              <th>Mold Temp</th>
+              <th>Curing Time</th>
+              <th>Strength</th>
+              <th>Elongation</th>
+              <th>Modulus</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td>${r.machine}</td>
+                <td>${r.product}</td>
+                <td>${r.injectTemp}</td>
+                <td>${r.moldTemp}</td>
+                <td>${r.curingtime}</td>
+                <td>${r.strength}</td>
+                <td>${r.elongation}</td>
+                <td>${r.modulus}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function showAll() {
+    const container = document.getElementById("qcDataContainer");
+    if (!allData.length) {
+      container.innerHTML = "<p style='color:white;'>📭 데이터 없음</p>";
+      return;
+    }
+
+    const sorted = allData.slice().reverse();
+    container.innerHTML = `
+      <div class="qc-group">
+        <h3>📋 전체 QC 기록 (${sorted.length}건)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Author</th>
+              <th>Machine</th>
+              <th>Product</th>
+              <th>Inject Temp</th>
+              <th>Mold Temp</th>
+              <th>Curing Time</th>
+              <th>Strength</th>
+              <th>Elongation</th>
+              <th>Modulus</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map(row => `
+              <tr>
+                <td>${row.date}</td>
+                <td>${row.author}</td>
+                <td>${row.machine}</td>
+                <td>${row.product}</td>
+                <td>${row.injectTemp}</td>
+                <td>${row.moldTemp}</td>
+                <td>${row.curingtime}</td>
+                <td>${row.strength}</td>
+                <td>${row.elongation}</td>
+                <td>${row.modulus}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function filterByProduct() {
+    const input = document.getElementById("productSearch").value.trim().toLowerCase();
+    const rows = document.querySelectorAll("#qcDataContainer tbody tr");
+
+    rows.forEach(row => {
+      const productCell = row.cells[3]; // 4번째 열
+      if (!productCell) return;
+      const productText = productCell.textContent.trim().toLowerCase();
+      row.style.display = productText.includes(input) ? "" : "none";
+    });
+  }
+
+  window.onload = loadQCData;
+  document.getElementById("dateFilter").addEventListener("change", applyFilter);
+</script>
+
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

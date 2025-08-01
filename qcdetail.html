@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>QC 상세</title>
+  <style>
+    body { background: #000; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+    .row { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h2>QC 상세 정보</h2>
+  <div id="details"></div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+
+fetch(`http://localhost:8080/api/tire/${id}`)
+  .then(res => res.json())
+  .then(item => {
+    document.getElementById('machine').textContent = item.machine;
+    document.getElementById('product').textContent = item.product;
+    document.getElementById('injectTemp').textContent = item.injectTemp;
+    document.getElementById('moldTemp').textContent = item.moldTemp;
+    document.getElementById('curingtime').textContent = item.curingtime;
+    document.getElementById('strength').textContent = item.strength;
+    document.getElementById('elongation').textContent = item.elongation;
+    document.getElementById('modulus').textContent = item.modulus;
+    document.getElementById('author').textContent = item.author;
+    document.getElementById('date').textContent = item.date;
+  });
+
+  </script>
+</body>
+</html>
